@@ -1,0 +1,20 @@
+<mat-accordion *ngIf="newsList.length>0" multi>
+
+  <mat-expansion-panel *ngFor="let news of newsList">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            {{news.title}}
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p>
+      {{news.description}}
+    </p>
+     <mat-action-row>
+      <button mat-raised-button color="primary">EDIT</button>
+      <button mat-raised-button color="warn" (click)="onDelete(news.id)" >DELETE</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+
+</mat-accordion>
+
