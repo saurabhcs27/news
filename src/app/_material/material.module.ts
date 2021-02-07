@@ -4,13 +4,14 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
 import {MatExpansionModule} from '@angular/material/expansion';
-import { MatSliderModule } from '@angular/material/slider';
+import {MatToolbarModule} from '@angular/material/toolbar';
+
 const MaterialComponents=[
   MatButtonModule,
   MatInputModule,
   MatCardModule,
   MatExpansionModule,
-  MatSliderModule
+  MatToolbarModule
 ]
 
 @NgModule({
