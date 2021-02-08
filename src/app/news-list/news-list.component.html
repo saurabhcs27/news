@@ -10,7 +10,7 @@
       {{news.description}}
     </p>
      <mat-action-row>
-      <button mat-raised-button color="primary">EDIT</button>
+      <a mat-raised-button color="primary" [routerLink]="['/editNews',news.id]">EDIT</a>
       <button mat-raised-button color="warn" (click)="onDelete(news.id)" >DELETE</button>
     </mat-action-row>
   </mat-expansion-panel>

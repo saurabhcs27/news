@@ -7,6 +7,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 const routes: Routes = [
   { path: 'newsList', pathMatch: 'full', component: NewsListComponent},
   { path: 'createNews', pathMatch: 'full', component: CreateNewsComponent},
+  { path: 'editNews/:newsId',pathMatch: 'full', component: CreateNewsComponent},
   { path: '',  redirectTo: '/newsList', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 

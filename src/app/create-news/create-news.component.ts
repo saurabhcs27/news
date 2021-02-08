@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { News }  from "../_model/news.model";
 import { NewsService } from '../_service/news.service';
 
@@ -9,14 +10,45 @@ import { NewsService } from '../_service/news.service';
   styleUrls: ['./create-news.component.css']
 })
 export class CreateNewsComponent implements OnInit {
-  newsCreateForm1!: FormGroup;
-  constructor(public newsService:NewsService) { }
+  newsCreateForm!: FormGroup;
+  private mode='create';
+  private newsId:string|null=null;;
+  news:News | undefined;
+  constructor(public newsService:NewsService, private route:ActivatedRoute) { }
 
   ngOnInit(): void {
     this.createForm();
+    this.route.paramMap.subscribe((paramMap:ParamMap)=>{
+                                                        if(paramMap.has('newsId')){
+                                                          this.newsId=paramMap.get('newsId');
+                                                          this.mode='edit';
+                                                          if(this.newsId){
+                                                            this.newsService.getNewsById(this.newsId).subscribe((newsData)=>{
+                                                                this.news={id:newsData._id,
+                                                                         title:newsData.title,
+                                                                         description:newsData.description}
+
+                                                              this.newsCreateForm.setValue({
+                                                                          'title':this.news.title,
+                                                                          'description':this.news.description
+                                                                        })
+                                                            })
+                                                          }
+
+
+                                                        }
+                                                        else{
+                                                          this.newsId=null;
+                                                          this.mode='create';
+
+                                                        }
+
+    })
   }
+
+
   createForm(){
-    this.newsCreateForm1=new FormGroup({
+    this.newsCreateForm=new FormGroup({
                                        'title':new FormControl(null,{
                                                validators:[Validators.required,Validators.minLength(5)]}),
                                        'description':new FormControl(null,{
@@ -26,19 +58,38 @@ export class CreateNewsComponent implements OnInit {
   }
 
   onSaveNews(){
-    if(this.newsCreateForm1.invalid){
-       return ;
+    if(this.newsCreateForm.invalid){
+      alert("provide input fields");
+     // return ;
+
     }
-    const news:News={
-      "id":null,
-      "title":this.newsCreateForm1.value.title,
-      "description":this.newsCreateForm1.value.description
+
+    if(this.mode==='create'){
+      const news:News={
+        "id":null,
+        "title":this.newsCreateForm.value.title,
+        "description":this.newsCreateForm.value.description
+      }
+      this.newsService.publishNews(news);
     }
-    console.log(news);
-    this.newsService.publishNews(news);
-    this.newsCreateForm1.reset();
-    this.newsCreateForm1.controls.title.setErrors(null);
-    this.newsCreateForm1.controls.description.setErrors(null);
+    else if(this.mode==='edit'){
+      console.log("component edit Mode one");
+      const news:News={
+        "id":this.newsId,
+        "title":this.newsCreateForm.value.title,
+        "description":this.newsCreateForm.value.description
+      }
+
+      if(news.id){
+        this.newsService.updateNews(news.id,news);
+        console.log("component edit Mode");
+      }
+
+    }
+
+    this.newsCreateForm.reset();
+    this.newsCreateForm.controls.title.setErrors(null);
+    this.newsCreateForm.controls.description.setErrors(null);
 
 
   }

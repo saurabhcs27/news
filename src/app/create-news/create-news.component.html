@@ -1,12 +1,12 @@
 
   <mat-card>
-    <form [formGroup]="newsCreateForm1"  (ngSubmit)="onSaveNews()" >
+    <form [formGroup]="newsCreateForm"  (ngSubmit)="onSaveNews()" >
     <mat-form-field>
         <input matInput
         placeholder=" News Title"
         name="title"
         formControlName="title">
-         <mat-error *ngIf="newsCreateForm1.get('title')?.invalid"> news title cant be blank</mat-error>
+         <mat-error *ngIf="newsCreateForm.get('title')?.invalid"> news title cant be blank</mat-error>
         <!--<mat-error *ngIf="postForm.getControl('txtTitle').invalid"> post title cant be blank</mat-error>-->
     </mat-form-field>
     <mat-form-field >
@@ -15,7 +15,7 @@
         placeholder="News Description"
         name="txtaDescription"
         formControlName="description"></textarea>
-        <mat-error *ngIf="newsCreateForm1.get('description')?.invalid"> news description cant be blank</mat-error>
+        <mat-error *ngIf="newsCreateForm.get('description')?.invalid"> news description cant be blank</mat-error>
     </mat-form-field>
     <button mat-raised-button color="primary" type="submit">Publish News</button>
   </form>
