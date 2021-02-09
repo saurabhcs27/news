@@ -10,6 +10,12 @@
 # dependencies
 /node_modules
 
+#backend Images
+/backend/images/*
+
+# exception to the rule
+!/backend/images/.gitkeep
+
 # profiling files
 chrome-profiler-events*.json
 speed-measure-plugin*.json

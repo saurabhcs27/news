@@ -1,5 +1,6 @@
 export interface News {
   id:string | null,
   title:string,
-  description:string
+  description:string,
+  imagePath: string|null;
 }

@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const newsSchema = new mongoose.Schema({
-  id: String,
+  //id: String,
   title:String,
-  description:String
+  description:String,
+  imagePath:String
 });
 
 module.exports=mongoose.model('News', newsSchema);

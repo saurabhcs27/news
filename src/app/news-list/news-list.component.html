@@ -6,6 +6,9 @@
             {{news.title}}
         </mat-panel-title>
     </mat-expansion-panel-header>
+    <div class="news-image" *ngIf="news.imagePath !==''">
+      <img [src]="news.imagePath" [alt]="news.title">
+    </div>
     <p>
       {{news.description}}
     </p>
