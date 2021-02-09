@@ -12,7 +12,7 @@
     <p>
       {{news.description}}
     </p>
-     <mat-action-row>
+     <mat-action-row *ngIf="userIsAuthenticated">
       <a mat-raised-button color="primary" [routerLink]="['/editNews',news.id]">EDIT</a>
       <button mat-raised-button color="warn" (click)="onDelete(news.id)" >DELETE</button>
     </mat-action-row>

@@ -2,6 +2,8 @@ const express=require('express');
 const router=express.Router();
 const News=require('../models/news');
 const multer = require("multer");
+
+const checkAuth = require("../middleware/varify-jwt");
 //////////////////////////////////////////
 
 const MIME_TYPE_MAP = {
@@ -30,7 +32,7 @@ const storage = multer.diskStorage({
 });
 
 ///////////////////////////////////////////
-router.post("",
+router.post("",checkAuth,
 multer({ storage: storage }).single("image"),
 (req,res,next)=>{
   const url = req.protocol + "://" + req.get("host");
@@ -86,7 +88,7 @@ router.get("/:id",(req,res,next)=>{
 
  ////////////////////////////////////////////
 
- router.delete("/:id",(req,res,next)=>{
+ router.delete("/:id",checkAuth,(req,res,next)=>{
   News.deleteOne({_id:req.params.id}).then(result=>{
      res.status(200).json({
        message:'News Deleted'
@@ -99,7 +101,7 @@ router.get("/:id",(req,res,next)=>{
 })
 ///////////////////////////////////////////////
 
-router.put("/:id",
+router.put("/:id",checkAuth,
 multer({ storage: storage }).single("image"),
 (req,res,next)=>{
   console.log(req.file);

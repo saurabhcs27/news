@@ -1,8 +1,20 @@
 <mat-toolbar color="primary">
   <span class="spacer" ><a routerLink="/newsList" routerLinkActive="HighlightedRoute">News List</a></span>
   <ul>
-    <li>
+    <li *ngIf="userIsAuthenticated">
       <a mat-button routerLink="/createNews" routerLinkActive="HighlightedRoute">Add New News</a>
     </li>
+    <li *ngIf="userIsAuthenticated">
+      <button mat-button (click)="onLogout()">Logout</button>
+    </li>
+    <li *ngIf="!userIsAuthenticated">
+      <a mat-button routerLink="/login" routerLinkActive="HighlightedRoute">Login</a>
+    </li>
+    <li *ngIf="!userIsAuthenticated">
+      <a mat-button routerLink="/register" routerLinkActive="HighlightedRoute">Register</a>
+    </li>
+
   </ul>
 </mat-toolbar>
+
+<!--*ngIf="userIsAuthenticated"-->
