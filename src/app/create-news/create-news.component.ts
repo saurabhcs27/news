@@ -77,7 +77,8 @@ export class CreateNewsComponent implements OnInit {
         "id":null,
         "title":this.newsCreateForm.value.title,
         "description":this.newsCreateForm.value.description,
-        'imagePath':this.newsCreateForm.value.image
+        'imagePath':this.newsCreateForm.value.image,
+
       }
       this.newsService.publishNews(news);
     }

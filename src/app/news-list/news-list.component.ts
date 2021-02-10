@@ -12,6 +12,7 @@ import { NewsService } from '../_service/news.service';
 export class NewsListComponent implements OnInit,OnDestroy {
   newsList:News[]=[];
   userIsAuthenticated = false;
+  userId:string|undefined|null;
   private authStatusSub!: Subscription;
   constructor(public newsService:NewsService,private authService:AuthService) { }
 
@@ -22,10 +23,12 @@ export class NewsListComponent implements OnInit,OnDestroy {
      console.log(this.newsList);
      });
      this.userIsAuthenticated = this.authService.getIsAuth();
+     this.userId=this.authService.getUserId();
      this.authStatusSub = this.authService
       .getAuthStatusListener()
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;
+        this.userId=this.authService.getUserId();
       });
   }
 

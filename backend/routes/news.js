@@ -39,8 +39,10 @@ multer({ storage: storage }).single("image"),
   const news=new News({
     title:req.body.title,
     description:req.body.description,
-    imagePath: url + "/images/" + req.file.filename
-  })
+    imagePath: url + "/images/" + req.file.filename,
+    creator: req.userData.userId
+  });
+  console.log(news);
   news.save().then((newlyPublishedNews)=>{
     //console.log("newlyPublishedNews");
     //console.log(newlyPublishedNews);
@@ -58,6 +60,7 @@ multer({ storage: storage }).single("image"),
 
  router.get("",(req,res,next)=>{
   News.find().then((fetchedNewsList)=>{
+                               console.log(fetchedNewsList)
                                res.status(200).json({
                                  message:'Post fetched From server',
                                  fetchedNewsList:fetchedNewsList
@@ -90,10 +93,11 @@ router.get("/:id",(req,res,next)=>{
 
  router.delete("/:id",checkAuth,(req,res,next)=>{
   News.deleteOne({_id:req.params.id}).then(result=>{
-     res.status(200).json({
-       message:'News Deleted'
-
-     })
+    if (result.n > 0) {
+      res.status(200).json({ message: "Deletion successful!" });
+    } else {
+      res.status(401).json({ message: "Not authorized!" });
+    }
   });
 
 
@@ -116,17 +120,18 @@ multer({ storage: storage }).single("image"),
     _id:req.body.id,
     title:req.body.title,
     description:req.body.description,
-    imagePath:imagePath
+    imagePath:imagePath,
+    creator: req.userData.userId
   })
   console.log(news);
   console.log("imagePath 2");
   console.log(imagePath);
-  News.updateOne({_id:req.params.id},news).then(result=>{
-    console.log("back edit Mode 2");
-     res.status(200).json({
-       message:'News updated'
-
-     })
+  News.updateOne({_id:req.params.id,creator: req.userData.userId},news).then(result=>{
+    if (result.nModified > 0) {
+      res.status(200).json({ message: "Update successful!" });
+    } else {
+      res.status(401).json({ message: "Not authorized!" });
+    }
   });
 
 

@@ -3,4 +3,5 @@ export interface News {
   title:string,
   description:string,
   imagePath: string|null;
+  creator?:string |null
 }

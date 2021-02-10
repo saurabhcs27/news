@@ -33,6 +33,7 @@ export class NewsService {
                     id: newlyPublishedNewsData.news.id,
                     title: news.title,
                     description: news.description,
+                    creator:newlyPublishedNewsData.news.creator,
                     imagePath: newlyPublishedNewsData.news.imagePath
                   };
                   this.newsList.push(newsItem);
@@ -45,16 +46,19 @@ export class NewsService {
   getNewsList(){
     this.http.get<{message:string,fetchedNewsList:any}>('http://localhost:3000/api/news')
     .pipe(map(newsData=>{
-            return newsData.fetchedNewsList.map((newsList:{ title: string; description: string; _id: string;imagePath:string })=>{
+            return newsData.fetchedNewsList.map((newsList:{ title: string; description: string; _id: string;imagePath:string,creator:string })=>{
                                                       return {
                                                             title:newsList.title,
                                                             imagePath:newsList.imagePath,
                                                             description:newsList.description,
-                                                            id:newsList._id
+                                                            id:newsList._id,
+                                                            creator:newsList.creator
+
                                                       }
             })
     }))
     .subscribe((transformedNewsList)=>{
+      console.log(transformedNewsList);
       this.newsList=transformedNewsList;
       this.newsListUpdated.next([...this.newsList]);
 
@@ -94,7 +98,8 @@ export class NewsService {
         id: news.id,
         title: news.title,
         description: news.description,
-        imagePath: news.imagePath
+        imagePath: news.imagePath,
+        creator:null
       };
     }
 
@@ -113,6 +118,7 @@ export class NewsService {
                     id: id,
                     title: news.title,
                     description: news.description,
+                    creator:news.creator,
                     imagePath: ""
                   };
                   updatedNewsList[oldNewsIndex]=newsItem;
